@@ -56,12 +56,6 @@ export default {
         }
       });
 
-      // that.basestation.subscribe.bs2k22_sub = await new ROSLIB.Topic({
-      //   ros: that.ros_init,
-      //   name: "/bs2k22",
-      //   messageType: "iris_its/Bs2k22",
-      // });
-
       that.basestation.subscribe.pc2Bs_sub = await new ROSLIB.Topic({
         ros: that.ros_init,
         name: "/pc2bs_telemetry",
