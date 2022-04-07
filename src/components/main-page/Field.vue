@@ -10,11 +10,12 @@
           ref="field"
           :config="$store.state.system.mainPage.fieldConfig"
         />
-        <v-image
+        <!-- <v-image
           ref="robotManual"
           :config="$store.state.system.mainPage.robotConfig"
-        />
+        /> -->
         <v-image ref="robot" :config="$store.state.robot.konva.robotConfig" />
+        <v-image ref="bola" :config="$store.state.robot.konva.ballConfig" />
       </v-layer>
     </v-stage>
   </div>
@@ -47,6 +48,7 @@ export default {
     that.fieldConfig.height = field_height;
 
     vuex.robot.konva.robotConfig.image.src = vuex.robot.konva.imageRobot.robot;
+    vuex.robot.konva.ballConfig.image.src = require("../../assets/Model_IRIS_Basestaton/Blue Model/bola_biru.png");
 
     let robotControl = that.robotConfig;
 
@@ -66,7 +68,7 @@ export default {
       }
       console.log("robotControl.x = ", robotControl.y - 58);
       console.log("robotControl.y = ", robotControl.x - 58);
-      console.log("robotControl.rotation = ", robotControl.rotation);
+      console.log("robotControl.rotation = ", robotControl.rotation * -1);
     });
   },
   mounted() {
@@ -92,15 +94,21 @@ export default {
 
       if (self.robot.isConnected) {
         self.robot.konva.robotConfig.x =
-          self.robot.basestation.subscribe.pc2Bs_msg.pos_x;
+          self.robot.basestation.subscribe.pc2Bs_msg.pos_y + 58;
         self.robot.konva.robotConfig.y =
-          self.robot.basestation.subscribe.pc2Bs_msg.pos_y;
+          self.robot.basestation.subscribe.pc2Bs_msg.pos_x + 58;
         self.robot.konva.robotConfig.rotation =
-          self.robot.basestation.subscribe.pc2Bs_msg.pos_theta;
+          self.robot.basestation.subscribe.pc2Bs_msg.pos_theta * -1;
+        self.robot.konva.ballConfig.x =
+          self.robot.basestation.subscribe.pc2Bs_msg.bola_y;
+        self.robot.konva.ballConfig.y =
+          self.robot.basestation.subscribe.pc2Bs_msg.bola_x;
       } else {
         self.robot.konva.robotConfig.x = 999;
         self.robot.konva.robotConfig.y = 999;
         self.robot.konva.robotConfig.rotation = 0;
+        self.robot.konva.ballConfig.y = 999;
+        self.robot.konva.ballConfig.rotation = 999;
       }
     });
 

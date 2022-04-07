@@ -53,7 +53,7 @@ export default new Vuex.Store({
     },
     robot: {
       ros_init: null,
-      ip: "172.16.80.101",
+      ip: "172.16.80.166",
       isConnected: false,
       isAutoConnect: true,
       basestation: {
@@ -82,6 +82,18 @@ export default new Vuex.Store({
           offset: {
             x: 35,
             y: 35,
+          },
+        },
+        ballConfig: {
+          x: 200,
+          y: 650,
+          image: new Image(),
+          width: 20,
+          height: 20,
+          rotation: 0,
+          offset: {
+            x: 10,
+            y: 10,
           },
         },
         imageRobot: {

@@ -2,9 +2,7 @@
   <div bottom style="background-color: rgb(206, 206, 206)">
     <v-app>
       <v-main>
-        <!-- Provides the application the proper gutter -->
         <v-container fluid>
-          <!-- If using vue-router -->
           <keep-alive>
             <router-view />
           </keep-alive>
@@ -36,55 +34,55 @@ export default {
       });
 
       that.ros_init.on("connection", function () {
-        // console.log("Connected to websocket server.");
+        console.log("Connected to websocket server.");
         that.isConnected = true;
         console.log(that.ip + " is connected");
       });
 
       that.ros_init.on("error", function (error) {
-        // console.log("Error connecting to websocket server");
+        console.log("Error connecting to websocket server");
       });
 
       var self = this;
       that.ros_init.on("close", function () {
-        // console.log("Connection to websocket server closed.");
+        console.log("Connection to websocket server closed.");
         that.isConnected = false;
-        // console.log("isConnected = " + that.isConnected);
+        console.log("isConnected = " + that.isConnected);
         if (that.isAutoConnect) {
-          // console.log("R " + that.ip + " DC. Reconnecting");
+          console.log("R " + that.ip + " DC. Reconnecting");
           that.ros_init.connect("ws://" + that.ip + ":9900");
         }
       });
 
       that.basestation.subscribe.pc2Bs_sub = await new ROSLIB.Topic({
         ros: that.ros_init,
-        name: "/pc2bs_telemetry",
-        messageType: "iris_its/BasestationTx",
+        name: "/pc2bs_telemetry", //nama topik untuk di advertise
+        messageType: "IRIS/BSTX", //nama package dan msg -> nama_package/msg
       });
-
-      that.basestation.publish = await new ROSLIB.Topic({
-        ros: that.ros_init,
-        name: "/bs2pc_telemetry",
-        messageType: "iris_its/BasestationRx",
-      });
-      //
-      // console.log("menerima msg ", that.basestation.subscribe.pc2Bs_msg);
+      console.log(that.ros_init);
     },
     subscribe() {
       let that = this.$store.state.robot.basestation.subscribe;
-
+      //format message yang perlu diperhatikan, ada pada sub terakhir
+      //contoh: that.pc2Bs_msg.pos_y nanti jadi int64 pos_y
       that.pc2Bs_sub.subscribe((bsIndex) => {
         that.pc2Bs_msg.pos_x = bsIndex.pos_x;
         that.pc2Bs_msg.pos_y = bsIndex.pos_y;
-        that.pc2Bs_msg.pos_theta = bsIndex.theta;
-        that.pc2Bs_msg.v_x = bsIndex.pos_x;
-        that.pc2Bs_msg.v_y = bsIndex.pos_y;
-        that.pc2Bs_msg.v_theta = bsIndex.theta;
+        that.pc2Bs_msg.pos_theta = bsIndex.pos_theta;
+        that.pc2Bs_msg.v_x = bsIndex.v_x;
+        that.pc2Bs_msg.v_y = bsIndex.v_y;
+        that.pc2Bs_msg.v_theta = bsIndex.v_theta;
+        that.pc2Bs_msg.bola_x = bsIndex.bola_x;
+        that.pc2Bs_msg.bola_y = bsIndex.bola_y;
       });
     },
   },
   computed: {},
-  created() {},
+  created() {
+    // alert("ini alert");
+    let ipLaptop = prompt("masukkan ip laptop anda!");
+    this.$store.state.robot.ip = ipLaptop;
+  },
 };
 </script>
 
