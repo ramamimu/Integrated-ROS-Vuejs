@@ -47,5 +47,6 @@ ctrl + c
 - Pastikan BS dan ROS terkoneksi dengan baik
 - Get attention on your port !
 - Kesepakatan BS pada port 9900
+- apa bila port belum terbuka, ketikkan perintah di terminal `sudo ufw allow 9900`
 - Untuk keperluan message bisa dilihat di src/App.vue baris 56 sampai 77
 - testcase untuk mendeteksi bola
