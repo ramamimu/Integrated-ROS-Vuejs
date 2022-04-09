@@ -24,11 +24,11 @@ export default {
     let vuex = this.$store.state;
     await this.initiation();
     this.subscribe();
-    if (vuex.robot.statusPublish) {
-      setInterval(() => {
+    setInterval(() => {
+      if (vuex.robot.isConnected && vuex.robot.statusPublish) {
         this.publish_msg();
-      }, 25);
-    }
+      }
+    }, 25);
   },
 
   methods: {
@@ -86,23 +86,29 @@ export default {
         that.pc2Bs_msg.bola_x = bsIndex.bola_x;
         that.pc2Bs_msg.bola_y = bsIndex.bola_y;
       });
-      if (
-        state.publish.bs2PcTopic.status == 4 ||
-        state.publish.bs2PcTopic.status == 2
-      ) {
-        state.publish.bs2PcTopic.x_tujuan = that.pc2Bs_msg.bola_x;
-        state.publish.bs2PcTopic.y_tujuan = that.pc2Bs_msg.bola_y;
-      } else if (state.publish.bs2PcTopic.status == 1) {
-        state.publish.bs2PcTopic.x_tujuan = that.pc2Bs_msg.pos_x;
-        state.publish.bs2PcTopic.y_tujuan = that.pc2Bs_msg.pos_y;
-      }
     },
     publish_msg() {
       let that = this.$store.state;
       let self = this;
+      if (
+        that.robot.basestation.publish.bs2PcTopic.status == 4 ||
+        that.robot.basestation.publish.bs2PcTopic.status == 2
+      ) {
+        that.robot.basestation.publish.bs2PcTopic.x_tujuan =
+          that.robot.basestation.subscribe.pc2Bs_msg.bola_x;
+        that.robot.basestation.publish.bs2PcTopic.y_tujuan =
+          that.robot.basestation.subscribe.pc2Bs_msg.bola_y;
+      } else if (that.robot.basestation.publish.bs2PcTopic.status == 1) {
+        that.robot.basestation.publish.bs2PcTopic.x_tujuan =
+          that.robot.basestation.subscribe.pc2Bs_msg.pos_x;
+        that.robot.basestation.publish.bs2PcTopic.y_tujuan =
+          that.robot.basestation.subscribe.pc2Bs_msg.pos_y;
+      }
+
       let pub_msg = new ROSLIB.Message(
         that.robot.basestation.publish.bs2PcTopic
       );
+      console.log(pub_msg);
       that.robot.basestation.publish.bs2Pc_pub.publish(pub_msg);
     },
   },

@@ -67,6 +67,8 @@ export default new Vuex.Store({
             v_x: 999,
             v_y: 999,
             v_theta: 999,
+            bola_x: 999,
+            bola_y: 999,
           },
         },
         publish: {
