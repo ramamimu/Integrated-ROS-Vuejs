@@ -56,6 +56,7 @@ export default new Vuex.Store({
       ip: "172.16.80.166",
       isConnected: false,
       isAutoConnect: true,
+      statusPublish: false,
       basestation: {
         subscribe: {
           pc2Bs_sub: null,
@@ -66,6 +67,14 @@ export default new Vuex.Store({
             v_x: 999,
             v_y: 999,
             v_theta: 999,
+          },
+        },
+        publish: {
+          bs2Pc_pub: null,
+          bs2PcTopic: {
+            status: 1,
+            x_tujuan: 0,
+            y_tujuan: 0,
           },
         },
       },

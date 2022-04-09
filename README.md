@@ -37,6 +37,10 @@ npm run serve
 ctrl + c
 ```
 
+### IP LAPTOP
+
+IP Laptop diisi sesuai dengan IP laptop yang sedang menjalankan ROS. Berhubung yang menjalankan ROS adalah laptop kalian masing-masing maka isi dengan IP kalian masing-masing
+
 ### Kriteria Penilaian dan clue
 
 - Program harus menggunakan OOP

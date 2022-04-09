@@ -10,10 +10,6 @@
           ref="field"
           :config="$store.state.system.mainPage.fieldConfig"
         />
-        <!-- <v-image
-          ref="robotManual"
-          :config="$store.state.system.mainPage.robotConfig"
-        /> -->
         <v-image ref="robot" :config="$store.state.robot.konva.robotConfig" />
         <v-image ref="bola" :config="$store.state.robot.konva.ballConfig" />
       </v-layer>
@@ -123,9 +119,18 @@ export default {
       const mousePos = this.$refs.stage.getNode().getPointerPosition();
       const x = mousePos.x;
       const y = mousePos.y;
-
+      const pointerX = Math.floor(
+        (716 / this.$refs.stage.getNode().attrs.height) * y - 58
+      );
+      const pointerY = Math.floor(
+        (1016 / this.$refs.stage.getNode().attrs.width) * x - 58
+      );
       // ANGKA TUNNING ROBOT MANUAL DENGAN LAPANGAN BS
-      console.log("x= ", (716 / 640) * y - 58, "|| y= ", (1016 / 910) * x - 58);
+      if (self.robot.basestation.publish.bs2PcTopic.status == 3) {
+        self.robot.basestation.publish.bs2PcTopic.x_tujuan = parseInt(pointerX);
+        self.robot.basestation.publish.bs2PcTopic.y_tujuan = parseInt(pointerY);
+      }
+      console.log("x= ", pointerX, "|| y= ", pointerY);
     },
     async resizeCanvas() {
       await this.$nextTick();

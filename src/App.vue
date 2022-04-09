@@ -24,6 +24,11 @@ export default {
     let vuex = this.$store.state;
     await this.initiation();
     this.subscribe();
+    if (vuex.robot.statusPublish) {
+      setInterval(() => {
+        this.publish_msg();
+      }, 25);
+    }
   },
 
   methods: {
@@ -59,10 +64,16 @@ export default {
         name: "/pc2bs_telemetry", //nama topik untuk di advertise
         messageType: "IRIS/BSTX", //nama package dan msg -> nama_package/msg
       });
-      console.log(that.ros_init);
+      that.basestation.publish.bs2Pc_pub = await new ROSLIB.Topic({
+        ros: that.ros_init,
+        name: "/bs2pc_telemetry", //nama topik untuk di advertise
+        messageType: "IRIS/BSRX", //nama package dan msg -> nama_package/msg
+      });
+      // console.log(that.ros_init);
     },
     subscribe() {
       let that = this.$store.state.robot.basestation.subscribe;
+      let state = this.$store.state.robot.basestation;
       //format message yang perlu diperhatikan, ada pada sub terakhir
       //contoh: that.pc2Bs_msg.pos_y nanti jadi int64 pos_y
       that.pc2Bs_sub.subscribe((bsIndex) => {
@@ -75,6 +86,24 @@ export default {
         that.pc2Bs_msg.bola_x = bsIndex.bola_x;
         that.pc2Bs_msg.bola_y = bsIndex.bola_y;
       });
+      if (
+        state.publish.bs2PcTopic.status == 4 ||
+        state.publish.bs2PcTopic.status == 2
+      ) {
+        state.publish.bs2PcTopic.x_tujuan = that.pc2Bs_msg.bola_x;
+        state.publish.bs2PcTopic.y_tujuan = that.pc2Bs_msg.bola_y;
+      } else if (state.publish.bs2PcTopic.status == 1) {
+        state.publish.bs2PcTopic.x_tujuan = that.pc2Bs_msg.pos_x;
+        state.publish.bs2PcTopic.y_tujuan = that.pc2Bs_msg.pos_y;
+      }
+    },
+    publish_msg() {
+      let that = this.$store.state;
+      let self = this;
+      let pub_msg = new ROSLIB.Message(
+        that.robot.basestation.publish.bs2PcTopic
+      );
+      that.robot.basestation.publish.bs2Pc_pub.publish(pub_msg);
     },
   },
   computed: {},
