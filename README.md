@@ -1,4 +1,4 @@
-# bs2022-baru
+# Final Project Internship IRIS 2022
 
 ## Pre-Required to run basestation
 
@@ -18,7 +18,7 @@ git clone https://github.com/ramamimu/Integrated-ROS-Vuejs.git
 
 or Download via .zip on github
 
-then type this on directory download / clone which containing folder publix, src,file README and more ...
+then type this on directory download / clone which containing folder public, src,file README and more ...
 
 ```
 npm install
@@ -53,4 +53,4 @@ IP Laptop diisi sesuai dengan IP laptop yang sedang menjalankan ROS. Berhubung y
 - Kesepakatan BS pada port 9900
 - apa bila port belum terbuka, ketikkan perintah di terminal `sudo ufw allow 9900`
 - Untuk keperluan message bisa dilihat di src/App.vue baris 56 sampai 77
-- testcase untuk mendeteksi bola
+- more info: https://miro.com/app/board/uXjVO-bq-1A=/?share_link_id=867953195237
