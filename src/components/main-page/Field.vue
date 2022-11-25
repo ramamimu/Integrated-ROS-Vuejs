@@ -96,9 +96,9 @@ export default {
         self.robot.konva.robotConfig.rotation =
           self.robot.basestation.subscribe.pc2Bs_msg.pos_theta * -1;
         self.robot.konva.ballConfig.x =
-          self.robot.basestation.subscribe.pc2Bs_msg.bola_y;
+          self.robot.basestation.subscribe.pc2Bs_msg.bola_y + 58;
         self.robot.konva.ballConfig.y =
-          self.robot.basestation.subscribe.pc2Bs_msg.bola_x;
+          self.robot.basestation.subscribe.pc2Bs_msg.bola_x + 58;
       } else {
         self.robot.konva.robotConfig.x = 999;
         self.robot.konva.robotConfig.y = 999;
